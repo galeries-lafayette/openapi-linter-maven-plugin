@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/api-violations"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "sample-api-violations.json",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}
