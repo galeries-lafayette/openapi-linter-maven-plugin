@@ -185,7 +185,7 @@
         <repository>
             <id>github</id>
             <name>GitHub</name>
-            <url>https://maven.pkg.github.com/galeries-lafayette/arrow-addon</url>
+            <url>https://maven.pkg.github.com/galeries-lafayette/*</url>
         </repository>
     </repositories>
 

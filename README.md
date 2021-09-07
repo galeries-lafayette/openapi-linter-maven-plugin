@@ -19,7 +19,7 @@ Add repository
 ```xml
 <repository>
   <id>github</id>
-  <url>https://maven.pkg.github.com/galeries-lafayette/openapi-linter-maven-plugin</url>
+  <url>https://maven.pkg.github.com/galeries-lafayette/*</url>
 </repository>
 ```
 
