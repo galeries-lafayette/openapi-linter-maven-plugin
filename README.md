@@ -30,7 +30,7 @@ Add the plugin `openapi-linter-maven-plugin`
 
         <plugin>
             <groupId>com.ggl</groupId>
-            <artifactId>openapi-linter-maven</artifactId>
+            <artifactId>openapi-linter-maven-plugin</artifactId>
             <version>1.0.0</version>
             <configuration>
                 <schema>/path/to/schema.yaml</schema>
