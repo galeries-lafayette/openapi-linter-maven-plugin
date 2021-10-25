@@ -3,35 +3,25 @@ package com.ggl.openapi.linter.plugin
 import com.ggl.openapi.linter.plugin.model.Linter.ZALLY
 import com.ggl.openapi.linter.plugin.model.Severity.MAY
 import com.ggl.openapi.linter.plugin.model.Severity.MUST
-import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
+import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
+import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should throw`
 import org.amshove.kluent.`with message`
 import org.apache.maven.monitor.logging.DefaultLog
 import org.apache.maven.plugin.MojoFailureException
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+@WireMockTest
 internal class OpenAPILinterMojoIT {
 
     private companion object {
-        private val wireMockServer = WireMockServer(wireMockConfig().dynamicPort())
         private const val SCHEMA = "src/test/resources/schema/sample-api.yaml"
         private val linter = ZALLY
 
         private val memoryLog = MemoryLog(1)
         private val log = DefaultLog(memoryLog)
-
-        @JvmStatic
-        @BeforeAll
-        private fun start() = wireMockServer.start()
-
-        @JvmStatic
-        @AfterAll
-        private fun stop() = wireMockServer.stop()
     }
 
     @BeforeEach
@@ -40,9 +30,9 @@ internal class OpenAPILinterMojoIT {
     }
 
     @Test
-    internal fun `It should validate schema`() {
+    internal fun `It should validate schema`(wireMockRuntimeInfo: WireMockRuntimeInfo) {
         // Given
-        val server = "http://localhost:${wireMockServer.port()}"
+        val server = wireMockRuntimeInfo.httpBaseUrl
         val mojo = OpenAPILinterMojo()
             .resetField("server", server)
             .resetField("schema", SCHEMA)
@@ -103,9 +93,9 @@ internal class OpenAPILinterMojoIT {
     }
 
     @Test
-    internal fun `It should not validate schema when too many violations`() {
+    internal fun `It should not validate schema when too many violations`(wireMockRuntimeInfo: WireMockRuntimeInfo) {
         // Given
-        val server = "http://localhost:${wireMockServer.port()}"
+        val server = wireMockRuntimeInfo.httpBaseUrl
         val mojo = OpenAPILinterMojo()
             .resetField("server", server)
             .resetField("schema", SCHEMA)
